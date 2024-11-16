@@ -1,0 +1,1 @@
+from scratch_rag_application.utils.logging_config import setup_logging

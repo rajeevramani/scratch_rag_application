@@ -1,0 +1,17 @@
+pipeline:
+  sources:
+    website:
+      urls:
+        - https://docs.konghq.com/konnect/network-resiliency/
+        - https://docs.konghq.com/konnect/network/
+        - https://docs.konghq.com/konnect/gateway-manager/
+        - https://docs.konghq.com/konnect/gateway-manager/data-plane-nodes/
+        - https://docs.konghq.com/konnect/gateway-manager/data-plane-nodes/secure-communications/
+        - https://docs.konghq.com/konnect/org-management/system-accounts/
+        - https://docs.konghq.com/konnect/api-products/
+        - https://docs.konghq.com/konnect/api-products/service-documentation/
+        - https://docs.konghq.com/konnect/api-products/productize-service
+      contentClass: "page-content"
+    pdfs:
+      - ~/Documents/KonnectSecurityReliabilityOverview.pdf
+      
