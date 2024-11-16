@@ -1,5 +1,5 @@
 import yaml
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, List, Union
 from pathlib import Path
 import logging
 from functools import reduce

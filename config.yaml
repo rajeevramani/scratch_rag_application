@@ -11,7 +11,7 @@ pipeline:
         - https://docs.konghq.com/konnect/api-products/
         - https://docs.konghq.com/konnect/api-products/service-documentation/
         - https://docs.konghq.com/konnect/api-products/productize-service
-      contentClass: "page-content"
+      content-class: "page-content"
     pdfs:
       - ~/Documents/KonnectSecurityReliabilityOverview.pdf
       
