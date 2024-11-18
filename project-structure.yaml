@@ -1,7 +1,5 @@
 .
 ├── config.yaml
-├── logs
-│   └── app.log
 ├── main.py
 ├── poetry.lock
 ├── project-structure.yaml
@@ -9,28 +7,19 @@
 ├── README.md
 ├── scratch_rag_application
 │   ├── config
-│   │   ├── config_handler.py
-│   │   ├── __init__.py
-│   │   └── __pycache__
-│   │       ├── config_handler.cpython-312.pyc
-│   │       └── __init__.cpython-312.pyc
-│   ├── __init__.py
+│   │   └── config_handler.py
 │   ├── loader
 │   │   ├── document_factory.py
-│   │   ├── __init__.py
-│   │   ├── __pycache__
-│   │   │   ├── __init__.cpython-312.pyc
-│   │   │   └── url_loader.cpython-312.pyc
 │   │   └── url_loader.py
-│   ├── __pycache__
-│   │   └── __init__.cpython-312.pyc
+│   ├── text_splitter
+│   │   ├── base.py
+│   │   ├── markdown_splitter.py
+│   │   ├── recursive_splitter.py
+│   │   ├── sentence_transformer_splitter.py
+│   │   ├── spacy_splitter.py
+│   │   └── splitter_factory.py
 │   └── utils
-│       ├── __init__.py
-│       ├── logging_config.py
-│       └── __pycache__
-│           ├── __init__.cpython-312.pyc
-│           └── logging_config.cpython-312.pyc
+│       └── logging_config.py
 └── tests
-    └── __init__.py
 
-11 directories, 23 files
+7 directories, 16 files

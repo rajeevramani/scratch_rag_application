@@ -11,7 +11,28 @@ pipeline:
         - https://docs.konghq.com/konnect/api-products/
         - https://docs.konghq.com/konnect/api-products/service-documentation/
         - https://docs.konghq.com/konnect/api-products/productize-service
-      content-class: "page-content"
+      content_class: "page-content"
     pdfs:
       - ~/Documents/KonnectSecurityReliabilityOverview.pdf
-      
+text_splitter:
+  type: spacy
+  markdown:
+    chunk_size: 1000
+    chunk_overlap: 200
+    separators: []  # Optional custom separators
+  recursive_character:
+    chunk_size: 1000
+    chunk_overlap: 200
+    separators: ["\n\n", "\n", " ", "", "###", "##", '#']
+  sentence_transformer:
+    chunk_size: 1000
+    chunk_overlap: 200
+    model_name: "all-MiniLM-L6-v2"
+  spacy:
+    chunk_size: 1500
+    chunk_overlap: 200
+    pipeline: "en_core_web_sm"
+  # huggingface:
+  #     model_name: "sentence-transformers/all-mpnet-base-v2"
+  #     chunk_size: 1000
+  #     chunk_overlap: 200
