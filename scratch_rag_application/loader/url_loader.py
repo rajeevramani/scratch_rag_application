@@ -21,7 +21,7 @@ class URLLoader:
         self.urls = self.config_handler.get(
             "pipeline.sources.website.urls", [])
         self.content_class = self.config_handler.get(
-            "pipeline.sources.website.contentClass", "page-content")
+            "pipeline.sources.website.content_class", "page-content")
 
     async def _fetch_url(self, session: aiohttp.ClientSession, url: str) -> Document:
         """Fetch and process a single URL."""

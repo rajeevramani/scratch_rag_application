@@ -53,7 +53,7 @@ class ConfigHandler:
                 self.config
             )
         except (KeyError, TypeError):
-            self.logger.error("KeyError or TypeError")
+            self.logger.error(f"KeyError or TypeError {path} ")
             return default
 
     def get_all_paths(self, prefix: str = '') -> List[str]:
