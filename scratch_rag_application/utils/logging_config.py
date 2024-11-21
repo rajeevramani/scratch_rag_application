@@ -13,12 +13,12 @@ def setup_logging(log_file='app.log'):
 
     log_file_path = os.path.join(log_dir, log_file)
 
-    # Create formatters
+    # Updated formatters to include class name and method
     file_formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s'
+        '%(asctime)s - %(name)s.%(funcName)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s'
     )
     console_formatter = logging.Formatter(
-        '%(asctime)s - %(levelname)s - %(message)s'
+        '%(asctime)s - %(name)s.%(funcName)s - %(levelname)s - %(message)s'
     )
 
     # Configure root logger
@@ -38,6 +38,9 @@ def setup_logging(log_file='app.log'):
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(logging.INFO)
     console_handler.setFormatter(console_formatter)
+
+    # Remove existing handlers if any
+    root_logger.handlers.clear()
 
     # Add handlers to root logger
     root_logger.addHandler(file_handler)

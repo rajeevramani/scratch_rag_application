@@ -1,6 +1,6 @@
 # splitters/markdown_splitter.py
 from langchain_text_splitters import MarkdownTextSplitter
-from .base import BaseTextSplitter
+from .base_splitter import BaseTextSplitter
 
 
 class MarkdownDocumentSplitter(BaseTextSplitter):

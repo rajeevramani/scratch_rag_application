@@ -1,6 +1,6 @@
 # embeddings/fastembed.py
 from langchain_community.embeddings import FastEmbedEmbeddings
-from .base import BaseEmbedding
+from .base_embedding import BaseEmbedding
 
 
 class FastEmbedEmbedding(BaseEmbedding):

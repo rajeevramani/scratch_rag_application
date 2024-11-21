@@ -1,5 +1,5 @@
 from langchain_huggingface import HuggingFaceEmbeddings
-from .base import BaseEmbedding
+from .base_embedding import BaseEmbedding
 
 
 class HuggingFaceEmbedding(BaseEmbedding):

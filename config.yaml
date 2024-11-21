@@ -15,7 +15,7 @@ pipeline:
     pdfs:
       - ~/Documents/KonnectSecurityReliabilityOverview.pdf
 text_splitter:
-  type: spacy
+  type: sentence_transformer
   markdown:
     chunk_size: 1000
     chunk_overlap: 200
@@ -32,7 +32,21 @@ text_splitter:
     chunk_size: 1500
     chunk_overlap: 200
     pipeline: "en_core_web_sm"
-  # huggingface:
-  #     model_name: "sentence-transformers/all-mpnet-base-v2"
-  #     chunk_size: 1000
-  #     chunk_overlap: 200
+embeddings:
+  type: huggingface  # or "fastembed"
+  huggingface:
+    model_name: "sentence-transformers/all-mpnet-base-v2"
+    # model_name: "BAAI/bge-large-en-v1.5"
+    model_kwargs:
+      device: "cpu"
+    encode_kwargs:
+      normalize_embeddings: true
+  fastembed:
+    model_name: "BAAI/bge-small-en-v1.5"
+    max_length: 512
+    batch_size: 256
+vectorstore:
+  type: chroma
+  chroma:
+    persist_directory: "./chroma_db"
+    collection_name: "kong_docs"

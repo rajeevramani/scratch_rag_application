@@ -7,19 +7,44 @@
 ├── README.md
 ├── scratch_rag_application
 │   ├── config
-│   │   └── config_handler.py
+│   │   ├── config_handler.py
+│   │   └── __init__.py
+│   ├── embedding
+│   │   ├── base_embedding.py
+│   │   ├── factory.py
+│   │   ├── fastembed.py
+│   │   ├── huggingface.py
+│   │   └── __init__.py
+│   ├── __init__.py
 │   ├── loader
 │   │   ├── document_factory.py
+│   │   ├── __init__.py
 │   │   └── url_loader.py
 │   ├── text_splitter
-│   │   ├── base.py
+│   │   ├── base_splitter.py
+│   │   ├── __init__.py
 │   │   ├── markdown_splitter.py
 │   │   ├── recursive_splitter.py
 │   │   ├── sentence_transformer_splitter.py
 │   │   ├── spacy_splitter.py
 │   │   └── splitter_factory.py
-│   └── utils
-│       └── logging_config.py
-└── tests
+│   ├── utils
+│   │   ├── cli_handler.py
+│   │   ├── __init__.py
+│   │   ├── logging_config.py
+│   │   └── text_cleaner.py
+│   ├── vector_store
+│   │   ├── base_vector_store.py
+│   │   ├── chroma.py
+│   │   ├── factory.py
+│   │   └── __init__.py
+│   └── visualization
+│       ├── base_visualization.py
+│       ├── matplotlib_visualization.py
+│       └── visualization_factory.py
+├── tests
+│   └── __init__.py
+└── visualizations
+    └── search_results_20241121_143603.png
 
-7 directories, 16 files
+11 directories, 37 files

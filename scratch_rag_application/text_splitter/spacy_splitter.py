@@ -1,6 +1,6 @@
 
 
-from .base import BaseTextSplitter
+from .base_splitter import BaseTextSplitter
 from langchain_text_splitters import SpacyTextSplitter
 
 

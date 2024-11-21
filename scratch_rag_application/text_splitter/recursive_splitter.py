@@ -1,6 +1,6 @@
 # splitters/recursive_splitter.py
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from .base import BaseTextSplitter
+from .base_splitter import BaseTextSplitter
 
 
 class RecursiveDocumentSplitter(BaseTextSplitter):

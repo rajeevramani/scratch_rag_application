@@ -1,6 +1,6 @@
 # splitters/sentence_transformer_splitter.py
 from langchain_text_splitters import SentenceTransformersTokenTextSplitter
-from .base import BaseTextSplitter
+from .base_splitter import BaseTextSplitter
 
 
 class SentenceTransformerDocumentSplitter(BaseTextSplitter):

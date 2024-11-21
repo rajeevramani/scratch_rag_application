@@ -1,6 +1,6 @@
 # embeddings/factory.py
 from typing import Dict, Type
-from .base import BaseEmbedding
+from .base_embedding import BaseEmbedding
 from .huggingface import HuggingFaceEmbedding
 from .fastembed import FastEmbedEmbedding
 

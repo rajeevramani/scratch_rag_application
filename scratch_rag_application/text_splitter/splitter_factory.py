@@ -1,6 +1,6 @@
 # factory.py
 from typing import Dict, Type
-from .base import BaseTextSplitter
+from .base_splitter import BaseTextSplitter
 from .markdown_splitter import MarkdownDocumentSplitter
 from .recursive_splitter import RecursiveDocumentSplitter
 from .sentence_transformer_splitter import SentenceTransformerDocumentSplitter
