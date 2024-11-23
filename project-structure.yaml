@@ -9,9 +9,14 @@
 │   ├── config
 │   │   ├── config_handler.py
 │   │   └── __init__.py
+│   ├── content_parser
+│   │   ├── base_parser.py
+│   │   ├── __init__.py
+│   │   ├── parser_factory.py
+│   │   └── qa_parser.py
 │   ├── embedding
 │   │   ├── base_embedding.py
-│   │   ├── factory.py
+│   │   ├── embedding_factory.py
 │   │   ├── fastembed.py
 │   │   ├── huggingface.py
 │   │   └── __init__.py
@@ -29,6 +34,7 @@
 │   │   ├── spacy_splitter.py
 │   │   └── splitter_factory.py
 │   ├── utils
+│   │   ├── chroma_inspector.py
 │   │   ├── cli_handler.py
 │   │   ├── __init__.py
 │   │   ├── logging_config.py
@@ -36,15 +42,18 @@
 │   ├── vector_store
 │   │   ├── base_vector_store.py
 │   │   ├── chroma.py
-│   │   ├── factory.py
-│   │   └── __init__.py
+│   │   ├── __init__.py
+│   │   └── vector_store_factory.py
 │   └── visualization
 │       ├── base_visualization.py
+│       ├── document_comparison_visualization.py
+│       ├── __init__.py
 │       ├── matplotlib_visualization.py
 │       └── visualization_factory.py
-├── tests
-│   └── __init__.py
-└── visualizations
-    └── search_results_20241121_143603.png
+└── tests
+    ├── fixtures
+    ├── __init__.py
+    ├── test_content_parser.py
+    └── test_url_loader.py
 
-11 directories, 37 files
+12 directories, 45 files

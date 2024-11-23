@@ -9,6 +9,7 @@ from scratch_rag_application.config.config_handler import ConfigHandler
 from scratch_rag_application.vector_store.vector_store_factory import VectorStoreFactory
 from scratch_rag_application.visualization.visualization_factory import VisualizationFactory
 from typing import Optional
+from scratch_rag_application.utils.chroma_inspector import inspect_chroma
 
 setup_logging()
 logger = logging.getLogger(__name__)
@@ -107,7 +108,7 @@ async def main():
             await query_store(query, config, visualize)
 
         if inspect:
-            from scratch_rag_application.utils.chroma_inspector import inspect_chroma
+
             inspect_chroma()
     except Exception as e:
         logger.error(f"Error during execution: {str(e)}")

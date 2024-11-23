@@ -50,3 +50,18 @@ vectorstore:
   chroma:
     persist_directory: "./chroma_db"
     collection_name: "kong_docs"
+content_parser:
+  qa:
+    patterns:
+      - type: "explicit"
+        question_pattern: "Q:|Question:"
+        answer_pattern: "A:|Answer:"
+      - type: "header"
+        header_pattern: "##\\s+.+\\?"
+scoring:
+  type: "hybrid"
+  hybrid:
+    bm25_weight: 0.3
+    vector_weight: 0.7
+  parameters:
+    k: 4  # Number of results to return
