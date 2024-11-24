@@ -4,19 +4,35 @@ from .base_vector_store import BaseVectorStore
 import os
 from typing import Optional, List, Tuple
 from langchain_core.documents import Document
-from ..scoring.bm25_scorer import BM25Scorer
-from ..scoring.hybrid_search import HybridSearch
+from ..search.search_factory import SearchFactory
 
 
 class ChromaVectorStore(BaseVectorStore):
     """Implementation using Chroma vector store with hybrid search capability."""
 
     def __init__(self, params: dict, embedding):
-        self.hybrid_search = HybridSearch(params)
-        self.bm25_scorer = BM25Scorer(params)
         super().__init__(params, embedding)
-        # Initialize BM25 with all documents during addition
-        self._initialize_bm25()
+        self.search_strategy = SearchFactory(
+            params).create_searcher(self._store)
+        if hasattr(self.search_strategy, 'initialize_documents'):
+            self._initialize_search_documents()
+
+    def _initialize_search_documents(self):
+        """Initialize search strategy with documents if needed."""
+        try:
+            if self._store:
+                results = self._store.get()
+                if results and results['documents']:
+                    docs = [
+                        Document(page_content=content, metadata=metadata)
+                        for content, metadata in zip(
+                            results['documents'],
+                            results['metadatas']
+                        )
+                    ]
+                    self.search_strategy.initialize_documents(docs)
+        except Exception as e:
+            self.logger.error(f"Error initializing search documents: {str(e)}")
 
     def _create_store(self) -> Chroma:
         """Create and return the Chroma vector store instance."""
@@ -71,53 +87,60 @@ class ChromaVectorStore(BaseVectorStore):
         query: str,
         k: Optional[int] = None
     ) -> List[Tuple[Document, float]]:
-        """
-        Perform hybrid search combining vector similarity and BM25 scores.
-        """
-        try:
-            # Get k from config if not provided
-            k = k or self.params.get("scoring.parameters.k", 4)
-
-            self.logger.info(f"Executing hybrid search for query: '{query}'")
-
-            # Get vector search results
-            vector_results = self._store.similarity_search_with_score(
-                query,
-                k=k
-            )
-            self.logger.info(f"Vector search found {
-                             len(vector_results)} results")
-
-            # Log vector search results
-            for i, (doc, score) in enumerate(vector_results, 1):
-                self.logger.debug(
-                    f"Vector Result {i}: Score={score:.4f}, "
-                    f"Content: {doc.page_content[:100]}..."
-                )
-
-            # Get BM25 results across ALL documents
-            bm25_results = self.bm25_scorer.score_documents(
-                query,
-                self.all_documents,
-                k=k
-            )
-            self.logger.info(f"BM25 search found {len(bm25_results)} results")
-
-            # Combine results
-            combined_results = self.hybrid_search.combine_results(
-                vector_results,
-                bm25_results,
-                self._store
-            )
-
-            self.logger.info(f"Final combined results: {
-                             len(combined_results)}")
-            return combined_results
-
-        except Exception as e:
-            self.logger.error(f"Error in hybrid search: {str(e)}")
-            self.logger.info("Falling back to vector search only")
-            return self._store.similarity_search_with_score(query, k=k)
+        """Execute search using configured strategy."""
+        return self.search_strategy.search(query, k)
+    # def similarity_search_with_score(
+    #     self,
+    #     query: str,
+    #     k: Optional[int] = None
+    # ) -> List[Tuple[Document, float]]:
+    #     """
+    #     Perform hybrid search combining vector similarity and BM25 scores.
+    #     """
+    #     try:
+    #         # Get k from config if not provided
+    #         k = k or self.params.get("scoring.parameters.k", 4)
+    #
+    #         self.logger.info(f"Executing hybrid search for query: '{query}'")
+    #
+    #         # Get vector search results
+    #         vector_results = self._store.similarity_search_with_score(
+    #             query,
+    #             k=k
+    #         )
+    #         self.logger.info(f"Vector search found {
+    #                          len(vector_results)} results")
+    #
+    #         # Log vector search results
+    #         for i, (doc, score) in enumerate(vector_results, 1):
+    #             self.logger.debug(
+    #                 f"Vector Result {i}: Score={score:.4f}, "
+    #                 f"Content: {doc.page_content[:100]}..."
+    #             )
+    #
+    #         # Get BM25 results across ALL documents
+    #         bm25_results = self.bm25_scorer.score_documents(
+    #             query,
+    #             self.all_documents,
+    #             k=k
+    #         )
+    #         self.logger.info(f"BM25 search found {len(bm25_results)} results")
+    #
+    #         # Combine results
+    #         combined_results = self.hybrid_search.combine_results(
+    #             vector_results,
+    #             bm25_results,
+    #             self._store
+    #         )
+    #
+    #         self.logger.info(f"Final combined results: {
+    #                          len(combined_results)}")
+    #         return combined_results
+    #
+    #     except Exception as e:
+    #         self.logger.error(f"Error in hybrid search: {str(e)}")
+    #         self.logger.info("Falling back to vector search only")
+    #         return self._store.similarity_search_with_score(query, k=k)
 
     def delete(self, ids: Optional[List[str]] = None) -> bool:
         """Delete the entire collection."""

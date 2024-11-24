@@ -25,6 +25,13 @@
 │   │   ├── document_factory.py
 │   │   ├── __init__.py
 │   │   └── url_loader.py
+│   ├── search
+│   │   ├── base_search.py
+│   │   ├── bm25_search.py
+│   │   ├── hybrid_search.py
+│   │   ├── __init__.py
+│   │   ├── search_factory.py
+│   │   └── vector_search.py
 │   ├── text_splitter
 │   │   ├── base_splitter.py
 │   │   ├── __init__.py
@@ -56,4 +63,4 @@
     ├── test_content_parser.py
     └── test_url_loader.py
 
-12 directories, 45 files
+13 directories, 51 files

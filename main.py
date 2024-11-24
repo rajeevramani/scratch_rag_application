@@ -9,10 +9,10 @@ from scratch_rag_application.config.config_handler import ConfigHandler
 from scratch_rag_application.vector_store.vector_store_factory import VectorStoreFactory
 from scratch_rag_application.visualization.visualization_factory import VisualizationFactory
 from typing import Optional
-from scratch_rag_application.utils.chroma_inspector import inspect_chroma
 
-setup_logging()
-logger = logging.getLogger(__name__)
+# Initialize logging with explicit main module name
+setup_logging(main_module_name='scratch_rag_application.main')
+logger = logging.getLogger('scratch_rag_application.main')
 
 
 async def load_data(config: ConfigHandler) -> None:
@@ -50,7 +50,7 @@ async def load_data(config: ConfigHandler) -> None:
 
 async def query_store(query: str, config: ConfigHandler, viz_type: Optional[str] = None) -> None:
     """
-    Execute a query against the existing vector store and show sorted results by relevance.
+    Execute a query against the vector store using hybrid search and show results sorted by relevance.
 
     Args:
         query: Search query string
@@ -63,13 +63,17 @@ async def query_store(query: str, config: ConfigHandler, viz_type: Optional[str]
     vector_factory = VectorStoreFactory(config)
     vector_store = vector_factory.create_store(embedder)
 
-    # Execute search with scores and sort by relevance (ascending distance scores)
-    results = vector_store._store.similarity_search_with_score(query, k=4)
-    sorted_results = sorted(results, key=lambda x: x[1])
+    # Use hybrid search through vector store interface
+    results = vector_store.similarity_search_with_score(query, k=4)
+
+    # Note: In hybrid search, higher scores indicate better matches
+    # but for consistency with existing visualizations, we'll keep displaying
+    # scores as distances (lower is better)
+    sorted_results = results  # Results are already sorted by hybrid search
 
     logger.info(f"Found {len(sorted_results)
                          } relevant documents for query: {query}")
-    logger.info("Results sorted by relevance (lower score = more relevant):\n")
+    logger.info("Results sorted by relevance:\n")
 
     for idx, (doc, score) in enumerate(sorted_results, 1):
         logger.info(f"Result {idx} (Similarity Score: {score:.4f}):")
@@ -108,7 +112,7 @@ async def main():
             await query_store(query, config, visualize)
 
         if inspect:
-
+            from scratch_rag_application.utils.chroma_inspector import inspect_chroma
             inspect_chroma()
     except Exception as e:
         logger.error(f"Error during execution: {str(e)}")

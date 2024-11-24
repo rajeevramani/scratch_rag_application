@@ -25,9 +25,10 @@ text_splitter:
     chunk_overlap: 200
     separators: ["\n\n", "\n", " ", "", "###", "##", '#']
   sentence_transformer:
-    chunk_size: 1000
+    chunk_size: 1500
     chunk_overlap: 200
-    model_name: "all-MiniLM-L6-v2"
+    #model_name: "all-MiniLM-L6-v2"
+    model_name: "sentence-transformers/all-mpnet-base-v2"
   spacy:
     chunk_size: 1500
     chunk_overlap: 200
@@ -59,9 +60,18 @@ content_parser:
       - type: "header"
         header_pattern: "##\\s+.+\\?"
 scoring:
-  type: "hybrid"
+  type: "hybrid"    # Options: "hybrid", "bm25", "vector"
+  parameters:
+    k: 4            # Default number of results to return
   hybrid:
     bm25_weight: 0.3
     vector_weight: 0.7
-  parameters:
-    k: 4  # Number of results to return
+  bm25:
+    # BM25 specific parameters if needed
+    tokenizer: "simple"  # Optional: could add custom tokenization options
+    b: 0.75             # Optional: BM25 parameter for length normalization
+    k1: 1.5            # Optional: BM25 parameter for term frequency scaling
+  vector:
+    # Vector specific parameters if needed
+    distance_metric: "cosine"  # Optional: specify distance metric
+    min_score: 0.0
